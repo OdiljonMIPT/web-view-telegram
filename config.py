@@ -1,0 +1,6 @@
+BOT_TOKEN = "5373589985:AAHSJwVkxrqyCjaZwSsf5ikqljc1YVE2snE"
+WEBHOOK_HOST = "web-view-telegram.herokuapp.com"
+WEBHOOK_PATH = "/web_app_example"
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+WEBAPP_HOST = "127.0.0.1"
+WEBAPP_PORT = 8000
