@@ -77,5 +77,5 @@ def main():
 
 
 if __name__ == "__main__":
-    app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
-    # main()
+    # app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
+    main()
