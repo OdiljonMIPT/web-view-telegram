@@ -54,7 +54,7 @@ def cmd_start(message: types.Message):
             [
                 types.InlineKeyboardButton(
                     text="Order Food",
-                    web_app=types.WebAppInfo(url=f'https://{config.WEBHOOK_HOST}'),
+                    web_app=types.WebAppInfo(url=f'https://tilbilig.uz'),
                 )
             ]
         ]
@@ -74,4 +74,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
+    # main()
