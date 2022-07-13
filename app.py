@@ -1,6 +1,6 @@
 from flask import Flask, request, abort, send_file
 from telebot import TeleBot, types
-
+from telebot.types import WebAppInfo, MenuButtonWebApp
 import config
 from utils import parse_init_data
 
@@ -49,6 +49,9 @@ def submit_order():
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message: types.Message):
+    bot.set_chat_menu_button(chat_id=message.chat.id, menu_button=MenuButtonWebApp(type='web_app', text='Open Menu',
+                                                                                   web_app=WebAppInfo(
+                                                                                       url=f'{config.WEBAPP_HOST}')))
     markup = types.InlineKeyboardMarkup(
         keyboard=[
             [
