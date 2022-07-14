@@ -1,6 +1,6 @@
 from flask import Flask, request, abort, send_file
 from telebot import TeleBot, types
-from telebot.types import WebAppInfo, MenuButtonWebApp
+from telebot.types import WebAppInfo, MenuButtonWebApp, LabeledPrice, ShippingOption
 import config
 from utils import parse_init_data
 
@@ -77,5 +77,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
+    app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
     main()
