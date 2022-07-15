@@ -1,7 +1,10 @@
 import telebot
 from telebot.types import LabeledPrice, ShippingOption
 
-token = '5523238384:AAGh-rRIu0XmSSGdraemn6Xr1XHV5ovqixI'
+# token = '5523238384:AAGh-rRIu0XmSSGdraemn6Xr1XHV5ovqixI'
+import config
+
+token = config.BOT_TOKEN_TEST
 provider_token = '1650291590:TEST:1657792520511_YXJh8j57qk9uun6z'
 bot = telebot.TeleBot(token)
 bot.delete_webhook()

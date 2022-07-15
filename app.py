@@ -81,7 +81,7 @@ def ordered(message: types.Message):
         # description
         'HAPPY FRIDAYS COUPON',  # invoice_payload
         config.provider_token,  # provider_token
-        'uzs',  # currency
+        'USD',  # currency
         prices,  # prices
         photo_url='http://erkelzaar.tsudao.com/models/perrotta/TIME_MACHINE.jpg',
         photo_height=512,  # !=0/None or picture won't be shown
