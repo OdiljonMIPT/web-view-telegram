@@ -118,6 +118,7 @@ def got_payment(message):
 def main():
     bot.delete_webhook()
     bot.set_webhook(config.WEBHOOK_URL)
+    bot.infinity_polling(skip_pending=True)
     app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
 
 
