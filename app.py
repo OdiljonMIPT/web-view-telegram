@@ -74,6 +74,7 @@ def cmd_start(message: types.Message):
 
 @bot.message_handler(func=lambda message: message.via_bot)
 def ordered(message: types.Message):
+    bot.send_message(message.from_user.id, f"salom\n {prices}")
     bot.send_invoice(
         message.chat.id,  # chat_id
         'GS Order Food',  # title
@@ -81,7 +82,7 @@ def ordered(message: types.Message):
         # description
         'HAPPY FRIDAYS COUPON',  # invoice_payload
         config.provider_token,  # provider_token
-        'USD',  # currency
+        'usd',  # currency
         prices,  # prices
         photo_url='http://erkelzaar.tsudao.com/models/perrotta/TIME_MACHINE.jpg',
         photo_height=512,  # !=0/None or picture won't be shown
