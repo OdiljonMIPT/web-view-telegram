@@ -7,6 +7,10 @@ from utils import parse_init_data
 bot = TeleBot(config.BOT_TOKEN, parse_mode="HTML")
 app = Flask(__name__, static_url_path='/static')
 
+shipping_options = [
+    ShippingOption(id='instant', title='WorldWide Teleporter').add_price(LabeledPrice('Teleporter', 100000)),
+    ShippingOption(id='pickup', title='Local pickup').add_price(LabeledPrice('Pickup', 30000))]
+
 
 @app.post(config.WEBHOOK_PATH)
 def process_webhook_post():
@@ -47,7 +51,6 @@ def submit_order():
         input_message_content=types.InputTextMessageContent(message_text=result_text, parse_mode='HTML'))
     bot.answer_web_app_query(query_id, result)
     global chat_id
-
     bot.send_invoice(
         chat_id,  # chat_id
         'GS Order Food',  # title
@@ -70,7 +73,7 @@ def submit_order():
 def cmd_start(message: types.Message):
     bot.set_chat_menu_button(chat_id=message.chat.id, menu_button=MenuButtonWebApp(type='web_app', text='Open Menu',
                                                                                    web_app=WebAppInfo(
-                                                                                      url=f'{config.WEBAPP_HOST}')))
+                                                                                       url=f'{config.WEBAPP_HOST}')))
     global chat_id
     chat_id = message.chat.id
     markup = types.InlineKeyboardMarkup(
@@ -89,6 +92,29 @@ def cmd_start(message: types.Message):
 @bot.message_handler(func=lambda message: message.via_bot)
 def ordered(message: types.Message):
     bot.reply_to(message, '<b>Thank you for your order!</b>\n(It will not be delivered)')
+
+
+@bot.shipping_query_handler(func=lambda query: True)
+def shipping(shipping_query):
+    print(shipping_query)
+    bot.answer_shipping_query(shipping_query.id, ok=True, shipping_options=shipping_options,
+                              error_message='Oh, seems like our Dog couriers are having a lunch right now. Try again later!')
+
+
+@bot.pre_checkout_query_handler(func=lambda query: True)
+def checkout(pre_checkout_query):
+    bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True,
+                                  error_message="Aliens tried to steal your card's CVV, but we successfully protected your credentials,"
+                                                " try to pay again in a few minutes, we need a small rest.")
+
+
+@bot.message_handler(content_types=['successful_payment'])
+def got_payment(message):
+    bot.send_message(message.chat.id,
+                     'Hoooooray! Thanks for payment! We will proceed your order for `{} {}` as fast as possible! '
+                     'Stay in touch.\n\nUse /buy again to get a Time Machine for your friend!'.format(
+                         message.successful_payment.total_amount / 100, message.successful_payment.currency),
+                     parse_mode='Markdown')
 
 
 def main():
