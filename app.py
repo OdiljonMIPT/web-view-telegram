@@ -59,8 +59,6 @@ def cmd_start(message: types.Message):
     bot.set_chat_menu_button(chat_id=message.chat.id, menu_button=MenuButtonWebApp(type='web_app', text='Open Menu',
                                                                                    web_app=WebAppInfo(
                                                                                        url=f'{config.WEBAPP_HOST}')))
-    global chat_id
-    chat_id = message.chat.id
     markup = types.InlineKeyboardMarkup(
         keyboard=[
             [
@@ -71,14 +69,13 @@ def cmd_start(message: types.Message):
             ]
         ]
     )
-    bot.send_message(message.from_user.id, f"<b>Hey {chat_id}!</b>\nYou can order food here!", reply_markup=markup)
+    bot.send_message(message.from_user.id, "<b>Hey!</b>\nYou can order food here!", reply_markup=markup)
 
 
 @bot.message_handler(func=lambda message: message.via_bot)
 def ordered(message: types.Message):
-    global chat_id
     bot.send_invoice(
-        chat_id,  # chat_id
+        message.chat.id,  # chat_id
         'GS Order Food',  # title
         ' Want to visit your great-great-great-grandparents? Make a fortune at the races? Shake hands with Hammurabi and take a stroll in the Hanging Gardens? Order our Working Time Machine today!',
         # description
@@ -128,5 +125,4 @@ if __name__ == "__main__":
     # app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
     main()
 
-chat_id = None
 prices = []
