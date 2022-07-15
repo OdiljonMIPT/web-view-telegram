@@ -30,7 +30,7 @@ def index():
 
 @app.post('/submitOrder')
 def submit_order():
-    prices = []
+    global prices
     data = request.json
     init_data = parse_init_data(token=config.BOT_TOKEN, raw_init_data=data['initData'])
     if init_data is False:
@@ -50,22 +50,7 @@ def submit_order():
         title='Order',
         input_message_content=types.InputTextMessageContent(message_text=result_text, parse_mode='HTML'))
     bot.answer_web_app_query(query_id, result)
-    global chat_id
-    bot.send_invoice(
-        chat_id,  # chat_id
-        'GS Order Food',  # title
-        ' Want to visit your great-great-great-grandparents? Make a fortune at the races? Shake hands with Hammurabi and take a stroll in the Hanging Gardens? Order our Working Time Machine today!',
-        # description
-        'HAPPY FRIDAYS COUPON',  # invoice_payload
-        config.provider_token,  # provider_token
-        'uzs',  # currency
-        prices,  # prices
-        photo_url='http://erkelzaar.tsudao.com/models/perrotta/TIME_MACHINE.jpg',
-        photo_height=512,  # !=0/None or picture won't be shown
-        photo_width=512,
-        photo_size=512,
-        is_flexible=False,  # True If you need to set up Shipping Fee
-        start_parameter='time-machine-example')
+
     return ''
 
 
@@ -91,7 +76,23 @@ def cmd_start(message: types.Message):
 
 @bot.message_handler(func=lambda message: message.via_bot)
 def ordered(message: types.Message):
-    bot.reply_to(message, '<b>Thank you for your order!</b>\n(It will not be delivered)')
+    global chat_id
+    bot.send_invoice(
+        chat_id,  # chat_id
+        'GS Order Food',  # title
+        ' Want to visit your great-great-great-grandparents? Make a fortune at the races? Shake hands with Hammurabi and take a stroll in the Hanging Gardens? Order our Working Time Machine today!',
+        # description
+        'HAPPY FRIDAYS COUPON',  # invoice_payload
+        config.provider_token,  # provider_token
+        'uzs',  # currency
+        prices,  # prices
+        photo_url='http://erkelzaar.tsudao.com/models/perrotta/TIME_MACHINE.jpg',
+        photo_height=512,  # !=0/None or picture won't be shown
+        photo_width=512,
+        photo_size=512,
+        is_flexible=False,  # True If you need to set up Shipping Fee
+        start_parameter='time-machine-example')
+    # bot.reply_to(message, '<b>Thank you for your order!</b>\n(It will not be delivered)')
 
 
 @bot.shipping_query_handler(func=lambda query: True)
@@ -128,3 +129,4 @@ if __name__ == "__main__":
     main()
 
 chat_id = None
+prices = []
