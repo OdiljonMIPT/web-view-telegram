@@ -26,6 +26,8 @@ def index():
 
 @app.post('/submitOrder')
 def submit_order():
+    prices = []
+    # LabeledPrice(label='Working Time Machine', amount=100000)
     data = request.json
     init_data = parse_init_data(token=config.BOT_TOKEN, raw_init_data=data['initData'])
     if init_data is False:
@@ -77,5 +79,5 @@ def main():
 
 
 if __name__ == "__main__":
-    app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
+    # app.run(host=config.WEBAPP_HOST, port=config.WEBAPP_PORT)
     main()
