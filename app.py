@@ -83,7 +83,7 @@ def cmd_start(message: types.Message):
             ]
         ]
     )
-    bot.send_message(message.from_user.id, "<b>Hey!</b>\nYou can order food here!", reply_markup=markup)
+    bot.send_message(message.from_user.id, f"<b>Hey {chat_id}!</b>\nYou can order food here!", reply_markup=markup)
 
 
 @bot.message_handler(func=lambda message: message.via_bot)
